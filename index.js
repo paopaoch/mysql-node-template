@@ -43,6 +43,44 @@ app.get('/user-list', (req, res) => {
     }
 })
 
+app.post('/login', (req, res) => {
+    const params = [
+        req.body.email
+    ]
+    let sql = "SELECT * FROM users WHERE email =?"
+    sql = mysql.format(sql, params)
+    try {
+        connection.query(sql, (err, result, fields) => {
+            if (err) throw err       
+            res.send(result)
+        })
+    }
+    catch(err) {
+        console.error('error at /user-list =>', err)
+    }
+})
+
+app.post('/get-profile', (req, res) => {
+    const params = [
+        req.body.id
+    ]
+    let sql = "SELECT * FROM users WHERE id =?"
+    sql = mysql.format(sql, params)
+    try {
+        connection.query(sql, (err, result, fields) => {
+            if (err) throw err       
+            res.send(result)
+        })
+    }
+    catch(err) {
+        console.error('error at /get-profile =>', err)
+    }
+})
+
+app.post('/upload-profile-image', (req, res) => {
+    console.log('reqq ==>',req)
+})
+
 app.post('/create-user', (req, res) => {
     const params = [
         req.body.firstname,
@@ -98,5 +136,18 @@ app.post('/update-user', (req, res) => {
     }
     catch(err) {
         console.error('error at /update-user =>', err)
+    }
+})
+
+app.get('/get-all-provice', (req, res) => {
+    const sql = "SELECT * FROM province_master"
+    try {
+        connection.query(sql, (err, result, fields) => {
+            if(err) throw err
+            res.send(result)
+        })
+    }
+    catch(err) {
+        console.error('error at /get-all-province =>', err)
     }
 })
